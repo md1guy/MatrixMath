@@ -59,30 +59,29 @@ public class Matrix {
     }
 
     // return transposed matrix
-    public Matrix transpose() {
-        Matrix matrix = new Matrix(this.cols, this.rows);
+    public static Matrix transpose(Matrix matrix) {
+        Matrix transposed = new Matrix(matrix.cols, matrix.rows);
 
-        for (int i = 0; i < matrix.rows; i++) {
-            for (int j = 0; j < matrix.cols; j++) {
-                matrix.values[i][j] = this.values[j][i];
+        for (int i = 0; i < transposed.rows; i++) {
+            for (int j = 0; j < transposed.cols; j++) {
+                transposed.values[i][j] = matrix.values[j][i];
             }
         }
 
-        return matrix;
+        return transposed;
     }
 
     // A + B
-    public Matrix add(Matrix B) {
-        Matrix A = this;
+    public static Matrix add(Matrix A, Matrix B) {
 
         if (B.rows != A.rows || B.cols != A.cols) {
             throw new RuntimeException("Illegal matrix dimensions.");
         }
 
-        Matrix C = new Matrix(rows, cols);
+        Matrix C = new Matrix(A.rows, A.cols);
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        for (int i = 0; i < A.rows; i++) {
+            for (int j = 0; j < A.cols; j++) {
                 C.values[i][j] = A.values[i][j] + B.values[i][j];
             }
         }
@@ -91,17 +90,16 @@ public class Matrix {
     }
 
     // A - B
-    public Matrix sub(Matrix B) {
-        Matrix A = this;
+    public static Matrix sub(Matrix A, Matrix B) {
 
         if (B.rows != A.rows || B.cols != A.cols) {
             throw new RuntimeException("Illegal matrix dimensions.");
         }
 
-        Matrix C = new Matrix(rows, cols);
+        Matrix C = new Matrix(A.rows, A.cols);
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        for (int i = 0; i < A.rows; i++) {
+            for (int j = 0; j < A.cols; j++) {
                 C.values[i][j] = A.values[i][j] - B.values[i][j];
             }
         }
@@ -110,13 +108,31 @@ public class Matrix {
     }
 
     // A * n
-    public Matrix scale(double scalar) {
+    public static Matrix scale(Matrix matrix, double scalar) {
 
-        Matrix C = new Matrix(this.rows, this.cols);
+        Matrix C = new Matrix(matrix.rows, matrix.cols);
 
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.cols; j++) {
-                C.values[i][j] = this.values[i][j] * scalar;
+        for (int i = 0; i < matrix.rows; i++) {
+            for (int j = 0; j < matrix.cols; j++) {
+                C.values[i][j] = matrix.values[i][j] * scalar;
+            }
+        }
+
+        return C;
+    }
+
+    // A .* B (Hadamard product)
+    public static Matrix hadm(Matrix A, Matrix B) {
+
+        if (B.rows != A.rows || B.cols != A.cols) {
+            throw new RuntimeException("Illegal matrix dimensions.");
+        }
+
+        Matrix C = new Matrix(A.rows, A.cols);
+
+        for (int i = 0; i < A.rows; i++) {
+            for (int j = 0; j < A.cols; j++) {
+                C.values[i][j] = A.values[i][j] * B.values[i][j];
             }
         }
 
@@ -124,9 +140,7 @@ public class Matrix {
     }
 
     // A * B
-    public Matrix mul(Matrix B) {
-
-        Matrix A = this;
+    public static Matrix mul(Matrix A, Matrix B) {
 
         if (A.cols != B.rows) {
             throw new RuntimeException("Illegal matrix dimensions.");

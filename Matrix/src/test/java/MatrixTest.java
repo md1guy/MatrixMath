@@ -27,10 +27,10 @@ class MatrixTest {
         };
 
         Matrix arrayMatrix = new Matrix(array);
-        arrayMatrix = arrayMatrix.transpose();
+        arrayMatrix = Matrix.transpose(arrayMatrix);
 
         Matrix vectorMatrix = new Matrix(vector);
-        vectorMatrix = vectorMatrix.transpose();
+        vectorMatrix = Matrix.transpose(vectorMatrix);
 
         assertArrayEquals(transposedArray, arrayMatrix.getValues(), "transpose matrix");
         assertArrayEquals(transposedVector, vectorMatrix.getValues(), "transpose vector");
@@ -49,7 +49,7 @@ class MatrixTest {
         };
 
         Matrix arrayMatrix = new Matrix(arrayA);
-        arrayMatrix = arrayMatrix.add(arrayMatrix);
+        arrayMatrix = Matrix.add(arrayMatrix, arrayMatrix);
 
         assertArrayEquals(arrayAplusA, arrayMatrix.getValues(), "Add matrices");
     }
@@ -68,7 +68,7 @@ class MatrixTest {
         };
 
         Matrix arrayMatrix = new Matrix(arrayA);
-        arrayMatrix = arrayMatrix.sub(arrayMatrix);
+        arrayMatrix = Matrix.sub(arrayMatrix, arrayMatrix);
 
         assertArrayEquals(arrayAminusA, arrayMatrix.getValues(), "Subtract matrices");
     }
@@ -88,9 +88,27 @@ class MatrixTest {
         };
 
         Matrix arrayMatrix = new Matrix(array);
-        arrayMatrix = arrayMatrix.scale(scalar);
+        arrayMatrix = Matrix.scale(arrayMatrix, scalar);
 
         assertArrayEquals(arrayScaled, arrayMatrix.getValues(), "Scale matrix");
+    }
+
+    @org.junit.jupiter.api.Test
+    void hadm() {
+        double[][] arrayA = {
+                {1, 2, 3},
+                {4, 5, 6}
+        };
+
+        double[][] arrayAdotA = {
+                {1, 4, 9},
+                {16, 25, 36}
+        };
+
+        Matrix arrayMatrix = new Matrix(arrayA);
+        arrayMatrix = Matrix.hadm(arrayMatrix, arrayMatrix);
+
+        assertArrayEquals(arrayAdotA, arrayMatrix.getValues(), "Hadamard product of matrices");
     }
 
     @org.junit.jupiter.api.Test
@@ -112,7 +130,7 @@ class MatrixTest {
 
         Matrix matrixArrayA = new Matrix(arrayA);
         Matrix matrixArrayB = new Matrix(arrayB);
-        Matrix matrixArrayAB = matrixArrayA.mul(matrixArrayB);
+        Matrix matrixArrayAB = Matrix.mul(matrixArrayA, matrixArrayB);
 
         double[][] arrayC = {
                 {1, 2, 3},
@@ -132,7 +150,7 @@ class MatrixTest {
 
         Matrix matrixArrayC = new Matrix(arrayC);
         Matrix matrixArrayD = new Matrix(arrayD);
-        Matrix matrixArrayCD = matrixArrayC.mul(matrixArrayD);
+        Matrix matrixArrayCD = Matrix.mul(matrixArrayC, matrixArrayD);
 
         assertArrayEquals(arrayAB, matrixArrayAB.getValues(), "Multiply matrices");
         assertArrayEquals(arrayCD, matrixArrayCD.getValues(),"Multiply matrices");
