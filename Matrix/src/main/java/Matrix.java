@@ -1,3 +1,5 @@
+package com.md1guy.feedforward;
+
 import java.util.function.DoubleFunction;
 import java.util.function.Function;
 
@@ -7,8 +9,24 @@ public class Matrix {
     private int cols;
     private double[][] values;
 
+    // get particular value from matrix values array
+    public double getValue(int i, int j) {
+        return values[i][j];
+    }
+
+    // values getter
     public double[][] getValues() {
         return values;
+    }
+
+    // set particular value to matrix values array
+    public void setValue(int i, int j, double value) {
+        values[i][j] = value;
+    }
+
+    // values setter
+    public void setValues(double[][] values) {
+        this.values = values;
     }
 
     // new values filled with 0's
@@ -52,6 +70,15 @@ public class Matrix {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
                 this.values[i][j] = Math.random();
+            }
+        }
+    }
+
+    // fill matrix values with particular double value
+    public void fill(double value) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                values[i][j] = value;
             }
         }
     }
@@ -101,6 +128,19 @@ public class Matrix {
         return C;
     }
 
+    // A + n
+    public static Matrix add(Matrix matrix, double n) {
+        Matrix C = new Matrix(matrix.rows, matrix.cols);
+
+        for (int i = 0; i < matrix.rows; i++) {
+            for (int j = 0; j < matrix.cols; j++) {
+                C.values[i][j] = matrix.values[i][j] + n;
+            }
+        }
+
+        return C;
+    }
+
     // A - B
     public static Matrix sub(Matrix A, Matrix B) {
 
@@ -113,6 +153,19 @@ public class Matrix {
         for (int i = 0; i < A.rows; i++) {
             for (int j = 0; j < A.cols; j++) {
                 C.values[i][j] = A.values[i][j] - B.values[i][j];
+            }
+        }
+
+        return C;
+    }
+
+    // A - n
+    public static Matrix sub(Matrix matrix, double n) {
+        Matrix C = new Matrix(matrix.rows, matrix.cols);
+
+        for (int i = 0; i < matrix.rows; i++) {
+            for (int j = 0; j < matrix.cols; j++) {
+                C.values[i][j] = matrix.values[i][j] - n;
             }
         }
 
@@ -171,7 +224,7 @@ public class Matrix {
         return C;
     }
 
-    // maps every element of the matrix with function, passed as lambda
+    // maps every element of the matrix with function, passed as parameter
     public void map(Func function) {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
