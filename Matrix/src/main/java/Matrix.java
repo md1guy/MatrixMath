@@ -1,3 +1,6 @@
+import java.util.function.DoubleFunction;
+import java.util.function.Function;
+
 public class Matrix {
 
     private int rows;
@@ -44,7 +47,16 @@ public class Matrix {
         }
     }
 
-    // return values with random values in range [0, 1]
+    // randomize values
+    public void randomize() {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                this.values[i][j] = Math.random();
+            }
+        }
+    }
+
+    // returns values with random values in range [0, 1]
     public static Matrix random(int rows, int cols) {
 
         Matrix matrix = new Matrix(rows, cols);
@@ -58,7 +70,7 @@ public class Matrix {
         return matrix;
     }
 
-    // return transposed matrix
+    // returns transposed matrix
     public static Matrix transpose(Matrix matrix) {
         Matrix transposed = new Matrix(matrix.cols, matrix.rows);
 
@@ -159,7 +171,16 @@ public class Matrix {
         return C;
     }
 
-    // print matrix
+    // maps every element of the matrix with function, passed as lambda
+    public void map(Func function) {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                this.values[i][j] = function.fn(this.values[i][j]);
+            }
+        }
+    }
+
+    // prints matrix
     public void print() {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
@@ -168,4 +189,9 @@ public class Matrix {
             System.out.println();
         }
     }
+}
+
+@FunctionalInterface
+interface Func {
+    double fn(double x);
 }

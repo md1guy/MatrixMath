@@ -1,12 +1,9 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Date;
-import java.util.Random;
-
 class MatrixTest {
 
     @org.junit.jupiter.api.Test
-    void transpose() {
+    void transposeTest() {
         double[][] array = {
                 {1, 2, 3},
                 {4, 5, 6}
@@ -37,7 +34,7 @@ class MatrixTest {
     }
 
     @org.junit.jupiter.api.Test
-    void add() {
+    void addTest() {
         double[][] arrayA = {
                 {1, 2, 3},
                 {4, 5, 6}
@@ -55,7 +52,7 @@ class MatrixTest {
     }
 
     @org.junit.jupiter.api.Test
-    void sub() {
+    void subTest() {
 
         double[][] arrayA = {
                 {2, 4, 6},
@@ -74,7 +71,7 @@ class MatrixTest {
     }
 
     @org.junit.jupiter.api.Test
-    void scale() {
+    void scaleTest() {
         double[][] array = {
                 {2, 4, 6},
                 {8, 10, 12}
@@ -94,7 +91,7 @@ class MatrixTest {
     }
 
     @org.junit.jupiter.api.Test
-    void hadm() {
+    void hadmTest() {
         double[][] arrayA = {
                 {1, 2, 3},
                 {4, 5, 6}
@@ -112,7 +109,7 @@ class MatrixTest {
     }
 
     @org.junit.jupiter.api.Test
-    void mul() {
+    void mulTest() {
         double[][] arrayA = {
                 {1, 2},
                 {3, 4}
@@ -154,5 +151,25 @@ class MatrixTest {
 
         assertArrayEquals(arrayAB, matrixArrayAB.getValues(), "Multiply matrices");
         assertArrayEquals(arrayCD, matrixArrayCD.getValues(),"Multiply matrices");
+    }
+
+    @org.junit.jupiter.api.Test
+    void mapTest() {
+        Func fn = (x) -> x * 2;
+
+        double[][] array = {
+                {1, 2},
+                {3, 4}
+        };
+
+        double[][] mappedArray = {
+                {2, 4},
+                {6, 8}
+        };
+
+        Matrix arrayMatrix = new Matrix(array);
+        arrayMatrix.map(fn);
+
+        assertArrayEquals(mappedArray, arrayMatrix.getValues(), "Map every element in matrix with function");
     }
 }
